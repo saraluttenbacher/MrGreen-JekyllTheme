@@ -36,5 +36,5 @@ img: "/assets/img/default/sara_graduation.png"
 
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
-{%- include util/auto-content-generator.liquid -%}
-Puppy Dog
+## This is where I'd put my personality!
+### IF I HAD ONE

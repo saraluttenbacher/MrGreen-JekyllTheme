@@ -1,0 +1,439 @@
+---
+title: "Data Wrangling Tutorial"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: "An ode to marble racing disguised as a data wrangling tutorial."
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(dplyr)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+marbles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-02/marbles.csv')
+```
+
+## Uh Oh...
+
+You spent the night watching marble races on youtube instead of studying data wrangling, didn't you? It pops into your recommendeds and you think *hey, that looks neat, I've got a few minutes,* and the next thing you know it's 3 AM and you're in a cold sweat cause it's down to the last race and red marble looks like it just might go all the way and you're wondering what the hell you're doing with your life. Now you're so deeply, desperately invested in marble racing that you're ready to risk your life savings putting together a fantasy mrl (marble racing league) bracket but you don't know who to bet on cause you only have the raw marble data and you were planning on wrangling that data, but you don't know how because you were watching marble races all night and- Anyway, never you fear, I've got you covered! We'll walk through wrangling that data together, and then you can get back to talking about your fantasy mrl bracket at every social event you attend for the next six months.
+
+## Description
+
+In this tutorial, you will learn:
+
+-   Five core dplyr data wrangling functions:
+
+    -   select()
+
+    -   filter()
+
+    -   mutate()
+
+    -   arrange()
+
+    -   summarize()
+
+-   The five dplyr join functions:
+
+    -   inner_join()
+
+    -   full_join()
+
+    -   left_join()
+
+    -   right_join()
+
+    -   anti_join()
+
+-   The various ways each of these functions makes data easier and more useful to work with
+
+-   To appreciate marble racing as the serious and competitive sport that it is
+
+## Prerequisites
+
+We will be using [marbles](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-06-02/readme.md#marblescsv) dataset from the [TidyTuesday](https://github.com/rfordatascience/tidytuesday) library. This dataset contains information about the marble races featured on the [Jelle's Marble Runs](https://www.youtube.com/channel/UCYJdpnjuSWVOLgGT9fIzL0g) youtube channel. Below is a data dictionary from the marbles Tidy Tuesday page that contains the variable names and descriptions.
+
+![marbles.csv Data Dictionary](images/Screen%20Shot%202021-04-11%20at%202.01.27%20PM.png "marbles.csv Data Dictionary"){width="526"}
+
+## Select()
+
+Most of the time, you will not need to look at all the columns of a data frame at once. If, for example, you want to look at each marbles total time compared to their average lap time for a race, you don't need to see the link to the youtube video of the race or the host of the race at the same time. That's where the select() function comes in handy. With the select function, we can select whichever columns we want from the data frame.
+
+### Choose Columns with select()
+
+In this example, replace a, b, and c in the select function with the variables for the marble names, marble times, and average lap times.![]()
+
+```{r select_module, exercise = TRUE}
+marbles %>% 
+  select(a, b, c)
+```
+
+```{r select_module-solution}
+marbles %>% 
+  select(marble_name, time_s, avg_time_lap)
+```
+
+### Remove Columns with select()
+
+In some cases, it may be more useful to you to tell r which columns you *don't* want. For example, say we didn't want to see who the host of the race was. We could spend the time typing out all 13 of the other variable names in the select function, or we could simply add "-" in front of host in the select function.
+
+Change the select function below so there is only one variable in the select function but we get the same output.
+
+```{r removing_columns_with_select, exercise = TRUE}
+marbles %>% 
+  select(date, race, site, source, marble_name, team_name, time_s, pole, points, track_length_m, number_laps, avg_time_lap, notes)
+```
+
+```{r removing_columns_with_select-solution}
+marbles %>% 
+  select(-host)
+```
+
+## Filter()
+
+While select() is good for looking at specific variables, we often want to pull out observations with specific values in our data.
+
+### Filtering by One Criteria
+
+For example, it is a well known fact that Team Momo is by far the best in the marble racing world. Run the code below to filter the marbles dataset for Team Momo. Try changing out Team Momo with other team names to filter for their data.
+
+```{r filtering_by_one_criteria, exercise = TRUE}
+marbles %>% 
+  filter(team_name == "Team Momo")
+```
+
+### Filtering by Multiple Criteria
+
+While Team Momo is obviously superior to all competition, I've always had a soft spot for the O'rangers and the Balls of Chaos. Luckily, r's got my back; we can filter on multiple criteria!
+
+Fix the code below by replacing the placeholders with the three team names.
+
+```{r filtering_by_multiple_criteria_1, exercise = TRUE}
+marbles %>% 
+  filter(team_name %in% c("blank", "blankity", "blank"))
+```
+
+```{r filtering_by_multiple_criteria_1-solution}
+marbles %>% 
+  filter(team_name %in% c("Team Momo", "O'rangers", "Balls of Chaos"))
+```
+
+We can also filter for values in more than one variable at the same time by adding another argument to the filter function! Try writing a chunk of code that will filter for the Balls of Chaos team and the Savage Speedway site.
+
+```{r filtering_by_multiple_criteria_2, exercise = TRUE}
+
+```
+
+```{r filtering_by_multiple_criteria_2-solution}
+marbles %>% 
+  filter(team_name == "Balls of Chaos",
+         site == "Savage Speedway")
+```
+
+## Mutate()
+
+### Add a Column
+
+In certain cases, you will want to add more columns instead of narrowing down the number of columns you have. For example, I want to create a new column in marbles contains the speed of each marble. This is where mutate() comes in!
+
+Edit the function so that the new column speed will be the difference between the marble's run time and the average run time.
+
+```{r mutate_speed, exercise = TRUE}
+marbles %>% 
+  mutate(speed_m_s = Write Function Here)
+```
+
+```{r mutate_speed-solution}
+marbles %>% 
+  mutate(speed_m_s = track_length_m/time_s)
+```
+
+### Combining dplyr functions
+
+But wait! It was probably pretty difficult to see that we added a new column there. It would be nice if we could, say, *select* just a few columns...
+
+Finish the pipeline so that only the marble_name, time_s, track_length_m, and speed_m\_s columns are displayed.
+
+```{r combine_dplyr_functions, exercise = TRUE}
+marbles %>% 
+  mutate(speed_m_s = track_length_m/time_s) %>% 
+  
+```
+
+```{r combine_dplyr_functions-solution}
+marbles %>% 
+  mutate(speed_m_s = track_length_m/time_s) %>% 
+  select(marble_name, time_s, track_length_m, speed_m_s)
+  
+```
+
+That looks much better! dplyr functions can be used in tandem to wrangle data even further.
+
+### Saving Your New Columns
+
+Well, now we are all set with our new variable. Go ahead and run the code below to select our new column.
+
+```{r unsaved, exercise = TRUE}
+marbles %>% 
+  select(speed_m_s)
+```
+
+Shoot! We forgot to overwrite the marbles data frame so our new column will be permanently added in. Go ahead and fix the code below so that time_diff is added to the marbles data frame.
+
+```{r assigning_mutate, exercise = TRUE}
+marbles %>% 
+  mutate(speed_m_s = track_length_m/time_s)
+
+```
+
+```{r assigning_mutate-solution}
+marbles = marbles %>% 
+  mutate(speed_m_s = track_length_m/time_s)
+marbles
+```
+
+Much better! Now we can actually use that data in the future.
+
+## Learning Check
+
+Time to test how your knowledge.
+
+```{r q1, echo = FALSE}
+question("The select() function allows you to select certain specific values of a particular variable.",
+        answer("True"),
+        answer("False",
+               correct = TRUE,
+               message = "Correct. The filter() function allows you to select certain values; the select() values allow you to select certain variables."),
+        incorrect = "Incorrect. The filter() function allows you to select certain values; the select() values allow you to select certain variables.")
+```
+
+```{r q2, echo=FALSE}
+question("Which of the following dplyr functions allows you to create new columns in a data frame?",
+         answer("mutate()", correct = TRUE),
+         answer("select()"),
+         answer("filter()"))
+
+```
+
+```{r q3, echo=FALSE}
+question("Which marble racing team is the best?",
+         answer("Team Galactic"),
+         answer("Mellow Yellow"),
+         answer("Rojo Rollers"),
+         answer("Team Momo", correct = TRUE))
+
+```
+
+## Arrange()
+
+Sometimes you just want your data in order. Dplyr can help with that too, with the use of the arrange function.
+
+Go ahead and arrange the marble data frame by name in alphabetic order.
+
+```{r arrange_by_name, exercise = TRUE}
+marbles %>% 
+  arrange(ENTER VARIABLE NAME HERE)
+```
+
+```{r arrange_by_name-solution}
+marbles %>% 
+  arrange(marble_name)
+```
+
+marble_name is a character variable, so arrange() orders the rows in alphabetical order. If you use arrange() with a numerical variable, it orders the rows from least to greatest.
+
+Perhaps, however, you wanted to order the data set by speed, and you wanted the fastest speed first. We can do that by using arrange with another function called desc().
+
+Change the code below so the data is arranged in descending order by speed_m\_s.
+
+```{r arrange_desc, exercise = TRUE}
+marbles %>% 
+  arrange(desc(PUT VARIABLE NAME HERE))
+```
+
+```{r arrange_desc-solution}
+marbles %>% 
+  arrange(desc(speed_m_s))
+```
+
+## Summarize()
+
+While rearranging data is all well and good, it can only tell us so much. Sometimes you just want to see some summary statistics. Summarize() can help.
+
+Create a formula that sets the variable mean_speed equal to the mean of all speed_m\_s values.
+
+```{r summarize_mean_speed, exercise = TRUE}
+marbles %>% 
+  summarize(PUT FORMULA HERE)
+```
+
+```{r summarize_mean_speed-solution}
+marbles %>% 
+  summarize(mean_speed = mean(speed_m_s))
+```
+
+Uh oh. At least one speed_m\_s value must be missing, so R just returned NA for the mean speed. Luckily, there is a pretty easy workaround to just such a situation. Add a second argument to the mean function called na.rm = TRUE to remove missing values. Try it below.
+
+```{r narm, exercise = TRUE}
+marbles %>% 
+  summarize(mean_speed = mean(speed_m_s))
+```
+
+```{r narm-solution}
+marbles %>% 
+  summarize(mean_speed = mean(speed_m_s, na.rm = TRUE))
+```
+
+### Group_by()
+
+Seeing the average speed of the every marble is cool and all, but I really want to compare the average speeds of each individual marble. I suppose, if I was really dedicated enough (and believe me, for marble racing, I am), I could filter out each individual marble and calculate its mean speed, and then log them all in a separate data frame, but there has to be an easier way, right? Of course there is!
+
+We can add a group_by() function in our pipeline. Group_by() groups a data frame by a specified variable. Any functions performed on that data frame further down the pipeline will act on the data in those predefined groups. For example, change the group_by() function in the code below to group by marble_name. Now the summarize function will find the mean speed of each marble.
+
+```{r group_by, exercise = TRUE}
+marbles %>% 
+  group_by(CHANGE THIS VARIABLE) %>% 
+  summarize(mean_speed = mean(speed_m_s, na.rm = TRUE))
+```
+
+```{r group_by-solution}
+marbles %>% 
+  group_by(marble_name) %>% 
+  summarize(mean_speed = mean(speed_m_s, na.rm = TRUE))
+```
+
+## Intermission
+
+Congrats on making it this far! All of your hard work deserves a break. Watch this cat video and unwind.
+
+![](https://youtu.be/6FQsIfE7sZM)
+
+## Join Functions
+
+```{r}
+momo_marbles = marbles %>% 
+  filter(marble_name == "Momo") %>% 
+  select(date, team_name, marble_name, site)
+snowflake_marbles = marbles %>% 
+  filter(marble_name == "Snowflake") %>% 
+  select(date, team_name, marble_name, site)
+```
+
+All better? Great! Now, while you were gone, there was a little...incident. Somehow, all of our marbles data got split up into different data frames. Don't ask how it happened. All we can really be sure of is that it most definitely was NOT my fault. Regardless, now that you're here, we should probably get to work joining these data sets together.
+
+Below are the data frames containing the data for two different marbles.
+
+```{r}
+momo_marbles
+snowflake_marbles
+```
+
+We will be using various join functions to combine the data from the two data frames into one data frame. The basic code used to join two tables will look something like this:
+
+```{r, eval = FALSE}
+x %>%
+  join_function(y, by = "Variable")
+```
+
+X is the first table and y is the second table. Join_function is the name of the join function being used. Variable is the variable we want to join the two tables on.
+
+The inner join function takes two data sets and finds the common values of the joining variable between the two. It then creates a table that contains the rows that correspond to those values. Join together momo_marbles and snowflake_marbles by date using inner_join. Hint: Look at the basic layout of joining pipeline above.
+
+```{r inner_join, exercise = TRUE}
+
+```
+
+```{r inner_join-solution}
+momo_marbles %>% 
+  inner_join(snowflake_marbles, by = "date")
+```
+
+The two dates, March 14 2020 and March 15 2020, are the only two dates that appeared in both the momo_marbles and snowflake_marbles data frames, so the only two rows of our new table contain those dates. The columns contained in the first table are added to our new table with the suffix .x, followed by the columns of our second table with the suffix .y
+
+### Left_join()
+
+Left_join creates a table with all the rows of table x. Any rows in table y that appear in table x are added on to the new table.
+
+Join together momo_marbles (left table) and snowflake_marbles (right table) by date using left_join.
+
+```{r left_join, exercise = TRUE}
+
+```
+
+```{r left_join-solution}
+momo_marbles %>% 
+  left_join(snowflake_marbles, by = "date")
+```
+
+The new table has all of the information stored in momo_marbles and all of the information in table y that is associated with the dates that appear in table x.
+
+### Right_join()
+
+Right_join is nearly identical to left join. It creates a table with all of the rows from table y and any of the rows in table x that also appear in table y.
+
+Join together momo_marbles (left table) and snowflake_marbles (right table) by date using right_join.
+
+```{r right_join, exercise = TRUE}
+
+```
+
+```{r right_join-solution}
+momo_marbles %>% 
+  right_join(snowflake_marbles, by = "date")
+```
+
+As you can see, this table looks very similar to the one produced by left join. The new table has all of the information stored in snowflake_marbles and all of the information in momo_marbles that is associated with the dates that appear in table snowflake_marbles.
+
+BONUS: Can you write a left join function that will produce the same results as our previous right join example?
+
+```{r bonus, exercise = TRUE}
+
+```
+
+```{r bonus-solution}
+  snowflake_marbles %>% 
+    left_join(momo_marbles, by = "date")
+```
+
+That's right! left join and right join functions are basically interchangeable.
+
+### Full_join()
+
+Full_join combines all of the information from table x and table y together in one table. Full_join starts off a lot like left join, with all of the rows from table x being listed along with any of the rows from table y that correspond to rows in table x. In full_join(), however, these rows are followed by the remaining rows in table y.
+
+Join together momo_marbles and snowflake_marbles by date using full_join.
+
+```{r full_join, exercise = TRUE}
+
+```
+
+```{r full_join-solution}
+momo_marbles %>% 
+  full_join(snowflake_marbles, by = "date")
+```
+
+This join function produces a much larger table with more missing values but preserves all of the information.
+
+### Anti_join()
+
+Our last join function is a bit different from the rest. Just as left join and right join are opposites, anti_join() is the inverse of inner_join(). Anti_join() creates a table containing all rows from table x that do NOT appear in table y.
+
+Join together momo_marbles and snowflake_marbles by date using anti_join.
+
+```{r anti_join, exercise = TRUE}
+
+```
+
+```{r anti_join-solution}
+momo_marbles %>% 
+  anti_join(snowflake_marbles, by = "date")
+```
+
+## Success!
+
+Well young padawan, I've taught you everything I know about data wrangling. Look how far you've come! You're totally going to win your mrl bracket now. Enjoy this sweet marble racing video as a reward for all of your hard work!
+
+![](https://youtu.be/s1CvOxvb8Qw)

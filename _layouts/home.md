@@ -25,7 +25,7 @@ layout: default
     </div>
   </div>
   <div class="home-intro-text">
-    {{ content }}
+    Data Scientist * She/Her * An Absolute Delight * Boston Located
   </div>
 </div>
 
