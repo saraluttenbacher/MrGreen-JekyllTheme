@@ -4,7 +4,7 @@ layout: about
 lng_pair: id_about
 
 # image for page specific usage
-img: ":sara_graduation.png"
+img: "/assets/img/default/sara_graduation.png"
 # publish date (used for seo)
 # if not specified, site.time will be used.
 #date: 2022-03-03 12:32:00 +0000
@@ -37,6 +37,4 @@ img: ":sara_graduation.png"
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
 {%- include util/auto-content-generator.liquid -%}
-{{ Puppy }}
-
-{{ Dog }}
+Puppy Dog
