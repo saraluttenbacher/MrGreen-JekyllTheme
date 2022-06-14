@@ -2,13 +2,13 @@
 # Owner's Personal Information
 ###########################################################
 # This is your brand name
-brand: "Your Brand"
+brand: ""
 
 # text below the brand name
-brand_sub_text: "$site_sample"
+brand_sub_text: ""
 
 # used for seo meta post author (if it's not defined in post)
-name: "Your Name"
+name: "Sara Luttenbacher"
 
 # home page top header texts
 home:
@@ -48,13 +48,9 @@ meta_common_description: "Your meta description."
 # the order of the items will be shown as here.
 # comment to remove any contact item
 contacts:
-  #- github: ""
-  #- email: ""
-  #- linkedin: ""
-  #- twitter: ""
-  #- instagram: ""
-  #- youtube: ""
-  #- facebook: ""
+  - github: "https://github.com/saraluttenbacher"
+  - email: "saramlutt@gmail.com"
+  - linkedin: "www.linkedin.com/in/sara-luttenbacher"
 # to add more, check the _data/const/contact.yml file
 #  - your_new_contact: ""
 
