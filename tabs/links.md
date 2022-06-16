@@ -44,8 +44,8 @@ page_data:
 
   # To change order of the Categories, simply change order. (you don't need to change list order.)
   category:
-    - title: "Resume"
-      type: id_resume
+    - title: "Portfolio"
+      type: id_portfolio
       color: "gray"
     - title: "My Projects"
       type: id_projects
@@ -56,8 +56,7 @@ page_data:
 
   list:
     -
-    # programming
-    - type: id_resume
+    - type: id_portfolio
       title: "My Resume"
       url: "/assets/files/Resume.pdf"
       info: "My totally awsome resume showing what an amazing asset I would be to any team."
