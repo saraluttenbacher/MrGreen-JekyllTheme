@@ -30,6 +30,6 @@ image_lazy_loader_on: true
 
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
-This Shinyr tutorial describes and utalizes some of the core data wrangling functions from the dyplyr package to work analyze the <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-06-02/readme.md">marble racing dataset</a> from the <a href="https://github.com/rfordatascience/tidytuesday">tidy tuesday</a> github page. This project displays my abilities in data wrangling, learnr tutorials, and (in my opinion) my excellent sense of humor. Download the rmd file <a href="/assets/files/dataWrangling.Rmd" download> here.</a>
+This Shinyr tutorial describes and utilizes some of the core data wrangling functions from the dyplyr package to analyze the <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-06-02/readme.md">marble racing dataset</a> from the <a href="https://github.com/rfordatascience/tidytuesday">tidy tuesday</a> github page. This project displays my abilities in data wrangling, learnr tutorials, and (in my opinion) my excellent sense of humor. Download the rmd file <a href="/assets/files/dataWrangling.Rmd" download> here.</a>
 
 <p align="center"><iframe src="https://saraluttenbacher.shinyapps.io/DataWrangling/" style="border:none;width:700px;height:500px;"></iframe></p>
