@@ -39,8 +39,8 @@ lng_pair: id_links
 ###########################################################
 page_data:
   main:
-    header: "Links"
-    info: "Your Links page description."
+    header: "Links and Resources"
+    info: "Files I've made, resources I've referenced, and anything else I think you might be interested in."
 
   # To change order of the Categories, simply change order. (you don't need to change list order.)
   category:
